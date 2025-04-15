@@ -1,10 +1,13 @@
 package dem.app.isims
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+
+const val EXTRA_TAG = "data"
 
 class LoginActivity : AppCompatActivity() {
 
@@ -20,6 +23,8 @@ class LoginActivity : AppCompatActivity() {
         initView()
         // 3 Step
         initEvent()
+        val data = intent?.getSerializableExtra(EXTRA_TAG)
+        Log.e("TAG", "onCreate: $data", )
     }
 
     private fun initEvent() {
