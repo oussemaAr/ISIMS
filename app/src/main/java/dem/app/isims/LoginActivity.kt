@@ -1,20 +1,68 @@
 package dem.app.isims
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class LoginActivity : AppCompatActivity() {
+
+    // 1- step
+    private lateinit var emailInput: EditText
+    private lateinit var passwordInput: EditText
+    private lateinit var loginButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_login)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        // 2- step
+        initView()
+        // 3 Step
+        initEvent()
+    }
+
+    private fun initEvent() {
+        loginButton.setOnClickListener {
+            if (validateInput(emailInput, passwordInput)) {
+
+            }
         }
     }
+
+    private fun validateInput(
+        email: EditText,
+        password: EditText
+    ): Boolean {
+        if (email.fetchText().isEmpty() ) {
+            email.error = "Required Field"
+            return false
+        }
+
+        if(!email.fetchText().validate()){
+            email.error = "Not Valid email"
+            return false
+        }
+        if (password.fetchText().isEmpty()) {
+            password.error = "Required Field"
+            return false
+        }
+        return true
+    }
+
+    private fun validate(
+        email: String,
+        password: String
+    ) = email.validate() && password.isNotEmpty()
+
+    private fun initView() {
+        emailInput = findViewById<EditText>(R.id.email_input)
+        passwordInput = findViewById<EditText>(R.id.password_input)
+        loginButton = findViewById<Button>(R.id.login_button)
+    }
 }
+
+// Kotlin Extensions
+fun EditText.fetchText(): String = this.text.toString()
+
+fun String.validate(): Boolean = this.contains("@")
